@@ -16,6 +16,15 @@
     <Filter Include="Resource Files\ImGui">
       <UniqueIdentifier>{f3fbbb16-6e80-4020-8d55-cc9fc980bd80}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\PeriodTracker">
+      <UniqueIdentifier>{ae1d7c95-3824-4ddc-9935-1aaeaa7d9586}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Views">
+      <UniqueIdentifier>{6de68ce9-d03c-4548-ac99-7e8cd8e67745}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Views">
+      <UniqueIdentifier>{99cf0c51-9716-472b-9591-ff35d28e1d7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -23,9 +32,6 @@
     </ClCompile>
     <ClCompile Include="glad.c">
       <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui.cpp">
       <Filter>Resource Files\ImGui</Filter>
@@ -50,8 +56,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\include\PeriodTracker\periodTracker.h">
+      <Filter>Header Files\PeriodTracker</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\PeriodTracker\pch.h">
+      <Filter>Header Files\PeriodTracker</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\myApp.h">
+      <Filter>Header Files\Views</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

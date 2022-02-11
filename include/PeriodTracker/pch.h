@@ -7,3 +7,5 @@
 #include <GLFW/glfw3.h>
 #include <ctime>
 #include <fstream>
+#include <periodTracker.h>
+#include <myApp.h>
