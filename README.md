@@ -10,3 +10,12 @@ A software to keep track of your monthly period. It calculates the next date usi
 
 ---
 ## Resources
+ * [Dear ImGUI](https://github.com/ocornut/imgui) - The GUI framework in use with OpenGL as the renderer and GLFW to handle input
+ * [The Cherno](https://www.youtube.com/playlist?list=PLlrATfBNZ98dudnM48yfGUldqGD0S4FFb) - C++ resource
+ * [cppreference](https://en.cppreference.com/w/) - Great C++ Library Reference Website
+
+
+## Tools Used
+ * Visual Studio 2022
+ * Git
+ * Cmake
