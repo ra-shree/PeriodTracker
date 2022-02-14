@@ -8,6 +8,5 @@
 #include <fstream>
 #include <vector>
 #include <PeriodTracker.h>
-#include <FileHandler.h>
 #include <MyApp.h>
 #include <iostream>

@@ -11,8 +11,6 @@ namespace FileHandler
 		// get only the last data only
 
 	public:
-		periodFile();
-		~periodFile();
 	};
 
 }
