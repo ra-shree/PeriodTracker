@@ -147,7 +147,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\include\PeriodTracker\FileHandler.cpp" />
     <ClCompile Include="..\include\PeriodTracker\PeriodTracker.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="ImGui\imgui.cpp" />
@@ -161,7 +160,6 @@
     <ClCompile Include="Views\MyApp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\PeriodTracker\FileHandler.h" />
     <ClInclude Include="..\include\PeriodTracker\pch.h" />
     <ClInclude Include="..\include\PeriodTracker\PeriodTracker.h" />
     <ClInclude Include="Views\MyApp.h" />

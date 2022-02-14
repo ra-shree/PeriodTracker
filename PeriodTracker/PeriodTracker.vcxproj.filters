@@ -57,9 +57,6 @@
     <ClCompile Include="..\include\PeriodTracker\PeriodTracker.cpp">
       <Filter>Header Files\PeriodTracker</Filter>
     </ClCompile>
-    <ClCompile Include="..\include\PeriodTracker\FileHandler.cpp">
-      <Filter>Header Files\PeriodTracker</Filter>
-    </ClCompile>
     <ClCompile Include="Views\MyApp.cpp">
       <Filter>Source Files\Views</Filter>
     </ClCompile>
@@ -69,9 +66,6 @@
       <Filter>Header Files\PeriodTracker</Filter>
     </ClInclude>
     <ClInclude Include="..\include\PeriodTracker\pch.h">
-      <Filter>Header Files\PeriodTracker</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\PeriodTracker\FileHandler.h">
       <Filter>Header Files\PeriodTracker</Filter>
     </ClInclude>
     <ClInclude Include="Views\MyApp.h">
