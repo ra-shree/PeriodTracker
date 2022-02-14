@@ -54,16 +54,28 @@
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <Filter>Resource Files\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="..\include\PeriodTracker\PeriodTracker.cpp">
+      <Filter>Header Files\PeriodTracker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\PeriodTracker\FileHandler.cpp">
+      <Filter>Header Files\PeriodTracker</Filter>
+    </ClCompile>
+    <ClCompile Include="Views\MyApp.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\PeriodTracker\periodTracker.h">
+    <ClInclude Include="..\include\PeriodTracker\PeriodTracker.h">
       <Filter>Header Files\PeriodTracker</Filter>
     </ClInclude>
     <ClInclude Include="..\include\PeriodTracker\pch.h">
       <Filter>Header Files\PeriodTracker</Filter>
     </ClInclude>
-    <ClInclude Include="Views\myApp.h">
-      <Filter>Header Files\Views</Filter>
+    <ClInclude Include="..\include\PeriodTracker\FileHandler.h">
+      <Filter>Header Files\PeriodTracker</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\MyApp.h">
+      <Filter>Source Files\Views</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
