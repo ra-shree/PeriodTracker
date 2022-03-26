@@ -1,7 +1,11 @@
 #include "../include/PeriodTracker/pch.h"
 /* All multi-line comments "starting with /*" were added by me. Single-line comments (starting with //) are from the ImGui*/
 
+/* change the properties / linker / system subsystem to console and the preprocessor directive below if you want to see the background terminal otherwise change it to windows
+ so the stupid console doesn't show up when you execute the app */
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 /*DO NOT TOUCH THIS GODDAMN FILE.*/
+
 static void glfw_error_callback(int error, const char* description)
 {
     fprintf(stderr, "Glfw Error %d: %s\n", error, description);
@@ -30,7 +34,7 @@ int main(int, char**)
 #endif
 
     // Create window with graphics context
-    GLFWwindow* window = glfwCreateWindow(480, 640, "Period Tracker", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(300, 200, "Period Tracker", NULL, NULL);
     if (window == NULL)
         return 1;
     glfwMakeContextCurrent(window);
@@ -69,7 +73,7 @@ int main(int, char**)
     //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
     //IM_ASSERT(font != NULL);
     // Our state
-    bool show_demo_window = true;
+    bool show_demo_window = false;
     bool show_another_window = true;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     
@@ -94,6 +98,9 @@ int main(int, char**)
             ImGui::ShowDemoWindow(&show_demo_window);
         
         /* My Code goes here */
+
+        mainWindow();
+     
 
         // Rendering
         ImGui::Render();
