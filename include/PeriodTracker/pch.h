@@ -10,4 +10,3 @@
 #include <vector>
 #include <PeriodTracker.h>
 #include <iostream>
-#include <MyApp.h>
