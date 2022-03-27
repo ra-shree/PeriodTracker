@@ -157,12 +157,10 @@
     <ClCompile Include="ImGui\imgui_tables.cpp" />
     <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Views\MyApp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\PeriodTracker\pch.h" />
     <ClInclude Include="..\include\PeriodTracker\PeriodTracker.h" />
-    <ClInclude Include="Views\MyApp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

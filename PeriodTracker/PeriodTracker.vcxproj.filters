@@ -19,9 +19,6 @@
     <Filter Include="Header Files\PeriodTracker">
       <UniqueIdentifier>{ae1d7c95-3824-4ddc-9935-1aaeaa7d9586}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Views">
-      <UniqueIdentifier>{6de68ce9-d03c-4548-ac99-7e8cd8e67745}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Views">
       <UniqueIdentifier>{99cf0c51-9716-472b-9591-ff35d28e1d7c}</UniqueIdentifier>
     </Filter>
@@ -57,9 +54,6 @@
     <ClCompile Include="..\include\PeriodTracker\PeriodTracker.cpp">
       <Filter>Header Files\PeriodTracker</Filter>
     </ClCompile>
-    <ClCompile Include="Views\MyApp.cpp">
-      <Filter>Source Files\Views</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\PeriodTracker\PeriodTracker.h">
@@ -67,9 +61,6 @@
     </ClInclude>
     <ClInclude Include="..\include\PeriodTracker\pch.h">
       <Filter>Header Files\PeriodTracker</Filter>
-    </ClInclude>
-    <ClInclude Include="Views\MyApp.h">
-      <Filter>Source Files\Views</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
