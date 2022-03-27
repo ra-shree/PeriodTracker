@@ -34,7 +34,7 @@ int main(int, char**)
 #endif
 
     // Create window with graphics context
-    GLFWwindow* window = glfwCreateWindow(300, 200, "Period Tracker", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(300, 500, "Period Tracker", NULL, NULL);
     if (window == NULL)
         return 1;
     glfwMakeContextCurrent(window);
@@ -65,6 +65,11 @@ int main(int, char**)
 
      // Load Fonts
     io.Fonts->AddFontFromFileTTF("../assets/fonts/Roboto-Medium.ttf", 16.0f);
+
+    ImFont* title_font = io.Fonts->AddFontFromFileTTF("../assets/fonts/Roboto-Medium.ttf", 32.0f);
+    ImFont* text_font = io.Fonts->AddFontFromFileTTF("../assets/fonts/Roboto-Medium.ttf", 18.0f);
+    ImFont* large_font = io.Fonts->AddFontFromFileTTF("../assets/fonts/Roboto-Medium.ttf", 64.0f);
+
     // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
     // - Read 'docs/FONTS.md' for more instructions and details.
     // - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
@@ -77,7 +82,7 @@ int main(int, char**)
     bool show_another_window = true;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     
-
+    int days_before_period = 20;
     // Main loop
     while (!glfwWindowShouldClose(window))
     {
@@ -97,10 +102,78 @@ int main(int, char**)
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
         
-        /* My Code goes here */
+        /* My Code starts here */
 
-        mainWindow();
-     
+
+        /* Setting the window and default docking flags for the main window */
+        ImGuiWindowFlags window_flags = 0;
+        ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_AutoHideTabBar;
+        static bool light_theme = false;
+        window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+        window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+
+        /* Setting up default style as dockspace */
+        const ImGuiViewport* main_viewport = ImGui::GetMainViewport();
+        ImGui::SetNextWindowPos(ImVec2(main_viewport->WorkPos.x, main_viewport->WorkPos.y), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize(ImVec2(300, 500), ImGuiCond_FirstUseEver);
+        ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+
+        /* Actual Start of the Window Drawing */
+        ImGui::Begin("Window", nullptr, window_flags);
+
+
+        ImGui::SetCursorPosX(60);
+        ImGui::PushFont(title_font);
+        ImGui::Text("Period Tracker");
+        ImGui::PopFont();
+
+        /* Next Period Button */
+        ImVec2 button_sz(120, 40);
+        ImVec2 ButtonPos(90, 200);
+        ImGui::SetCursorPos(ButtonPos);
+        if (ImGui::Button("Start Next Cycle", button_sz)) {
+            days_before_period += 1;
+        }
+
+        /* Diplaying the actual period date */
+        ImVec2 TextPos(80, 100);
+        ImGui::SetCursorPos(TextPos);
+        ImGui::PushFont(text_font);
+        ImGui::Text("Your period starts in: ");
+        ImGui::PopFont();
+
+        ImGui::SetCursorPosX(110);
+        ImGui::PushFont(large_font);
+        ImGui::Text("%d", days_before_period);
+        ImGui::PopFont();
+
+        ImVec2 DaysPos(176, 160);
+        ImGui::SetCursorPos(DaysPos);
+        ImGui::Text("days");
+        ImGui::NewLine();
+
+        /* Delete all data button */
+        ImVec2 DeleteButtonPos(90, 400);
+        ImGui::SetCursorPos(DeleteButtonPos);
+        ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0, 0.6f, 0.6f));
+        if (ImGui::Button("Delete All Data", button_sz)) {
+            std::cout << "Hello World!";
+        }
+        ImGui::PopStyleColor(1);
+
+        /* Switch between light theme and dark theme */
+        ImVec2 checkBoxPos(190, 470);
+        ImGui::SetCursorPos(checkBoxPos);
+        ImGui::Checkbox("Light Theme", &light_theme);
+        if (light_theme) {
+            ImGui::StyleColorsLight();
+        }
+        else {
+            ImGui::StyleColorsDark();
+        }
+        ImGui::End();
+
+        /* My code ends here */
 
         // Rendering
         ImGui::Render();
