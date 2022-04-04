@@ -56,10 +56,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\PeriodTracker\PeriodTracker.h">
+    <ClInclude Include="..\include\PeriodTracker\pch.h">
       <Filter>Header Files\PeriodTracker</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\PeriodTracker\pch.h">
+    <ClInclude Include="..\include\PeriodTracker\PeriodTracker.h">
       <Filter>Header Files\PeriodTracker</Filter>
     </ClInclude>
   </ItemGroup>
