@@ -64,11 +64,11 @@ int main(int, char**)
     ImGui_ImplOpenGL3_Init(glsl_version);
 
      // Load Fonts
-    io.Fonts->AddFontFromFileTTF("../assets/fonts/Roboto-Medium.ttf", 16.0f);
+    io.Fonts->AddFontFromFileTTF("../Roboto-Medium.ttf", 16.0f);
 
-    ImFont* title_font = io.Fonts->AddFontFromFileTTF("../assets/fonts/Roboto-Medium.ttf", 32.0f);
-    ImFont* text_font = io.Fonts->AddFontFromFileTTF("../assets/fonts/Roboto-Medium.ttf", 18.0f);
-    ImFont* large_font = io.Fonts->AddFontFromFileTTF("../assets/fonts/Roboto-Medium.ttf", 64.0f);
+    ImFont* title_font = io.Fonts->AddFontFromFileTTF("../Roboto-Medium.ttf", 32.0f);
+    ImFont* text_font = io.Fonts->AddFontFromFileTTF("../Roboto-Medium.ttf", 18.0f);
+    ImFont* large_font = io.Fonts->AddFontFromFileTTF("../Roboto-Medium.ttf", 64.0f);
 
     // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
     // - Read 'docs/FONTS.md' for more instructions and details.
