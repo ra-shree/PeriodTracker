@@ -4,18 +4,26 @@ class tracker {
 private:
     std::vector<int> predicted_menstrual_cycle_length;
     std::vector<int> actual_menstrual_cycle_length;
+    int actual_menstrual_vector_size;
+    int predicted_menstrual_vector_size;
     // last calculated quartiles of actual_menstrual_cycle_length
     int latest_quartiles[3];
 
-    // consecutive length difference
+    // CLD = consecutive menstrual cycle length difference i.e previous menstrual cycle length - this cycle length and this cycle length - next cycle length and so on
     std::vector<int> CLD;
-    time_t last_system_date;
-    time_t today_system_date;
+
+    time_t last_app_open_date;
+    time_t start_of_next_cycle_date;
+
     int latest_predicted_length;
     int latest_actual_length;
 
 public:
-    tracker() {};
+    tracker() 
+    {
+        this->actual_menstrual_vector_size = actual_menstrual_cycle_length.size();
+        this->predicted_menstrual_vector_size = predicted_menstrual_cycle_length.size();
+    };
 
     ~tracker() {};
 
@@ -23,25 +31,33 @@ public:
     // takes no argument
     int Latest_Predicted_Length()
     {
-        return latest_predicted_length;
+        return this->latest_predicted_length;
     }
 
     // returns the latest actual menstrual length
     // takes no arguments
     int Latest_Actual_Length()
     {
-        return latest_actual_length;
+        return this->latest_actual_length;
     }
 
-    // sets the latest actual menstrual length
-    // takes no arguments
     // calculate and insert CLD into the vector
+    // CLD = consecutive menstrual cycle length difference i.e previous menstrual cycle length - this cycle length and this cycle length - next cycle length and so on
+    int Calculate_CLD()
+    {
+        if (actual_menstrual_cycle_length.size() >= 2)
+        {
+            int consecutive_length_difference = actual_menstrual_cycle_length[this->actual_menstrual_vector_size - 1] - actual_menstrual_cycle_length[this->actual_menstrual_vector_size - 2];
+            CLD.push_back(consecutive_length_difference);
+        }
+        return 0;
+    }
 
     // calculate the quartiles of actual_menstrual_cycle_length
     int Calculate_Quartiles()
     {
         std::sort(actual_menstrual_cycle_length.begin(), actual_menstrual_cycle_length.end());
-        int total_elements = actual_menstrual_cycle_length.size();
+        int total_elements = this->actual_menstrual_vector_size;
         float Q_index[3];
         float quart = (total_elements + 1) / 4;
         int abc[3] = { 0 };
@@ -65,21 +81,20 @@ public:
         }
         return 0;
     }
-    // return the last system date
 
-    // return the standard deviation of last predicted cycle length and last actual menstrual cycle length
-
-    // insert new predicted date into the vector
-
-    // insert new actual date into the vector
-
+    // insert latest_predicted_length and latest_actual_length into their respective vectors once the user presses the button
+    int Insert_Latest_Lengths_In_Vectors()
+    {
+        this->predicted_menstrual_cycle_length.push_back(this->latest_predicted_length);
+        this->actual_menstrual_cycle_length.push_back(this->latest_actual_length);
+        return 0;
+    }
+    
     // check if a file exists and return a boolean
 
     // create a new file if not and return a boolean
 
     // retrieve date from the file and instantiate the object
-
-    /* Deepti's Job */
 
     // return today's system date as a string
     // no input
@@ -96,15 +111,14 @@ public:
 int Algorithm_Predict_Next_Menstrual_Length(tracker& object)
 {
     tracker* ob = &object;
-    int next_predicted_length = 0;
-    next_predicted_length = ob->latest_predicted_length;
-    int max_index_of_vector = ob->predicted_menstrual_cycle_length.size() - 1;
+    int next_predicted_length;
+    int CLD_size = ob->CLD.size();
+    int difference_in_CLD = ob->CLD[CLD_size - 1] - ob->CLD[CLD_size - 2];
+    int max_index_of_vector = ob->predicted_menstrual_vector_size - 1;
 
     // if there is no previous predicted length i.e this is the first use of the app
     if (max_index_of_vector == -1) {
         next_predicted_length = 28;
-        ob->latest_predicted_length = next_predicted_length;
-        ob->predicted_menstrual_cycle_length.push_back(next_predicted_length);
         return 0;
     }
 
