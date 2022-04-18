@@ -3,7 +3,7 @@
 
 /* change the properties / linker / system subsystem to console and the preprocessor directive below if you want to see the background terminal otherwise change it to windows
  so the stupid console doesn't show up when you execute the app */
-#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+//#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 /*DO NOT TOUCH THIS GODDAMN FILE.*/
 
 static void glfw_error_callback(int error, const char* description)
@@ -82,7 +82,14 @@ int main(int, char**)
     bool show_another_window = true;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     
-    int days_before_period = 20;
+    tracker AppInstance;
+    if (Check_File_Exists()) {
+        Load_Data_From_File(AppInstance);
+        AppInstance.Days_Between_App_Open();
+    } else {
+        Runner(AppInstance);
+    }
+    int days_before_period = AppInstance.countdown_predicted_date;
     // Main loop
     while (!glfwWindowShouldClose(window))
     {
@@ -104,7 +111,6 @@ int main(int, char**)
         
         /* My Code starts here */
 
-
         /* Setting the window and default docking flags for the main window */
         ImGuiWindowFlags window_flags = 0;
         ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_AutoHideTabBar;
@@ -121,7 +127,6 @@ int main(int, char**)
         /* Actual Start of the Window Drawing */
         ImGui::Begin("Window", nullptr, window_flags);
 
-
         ImGui::SetCursorPosX(60);
         ImGui::PushFont(title_font);
         ImGui::Text("Period Tracker");
@@ -132,7 +137,9 @@ int main(int, char**)
         ImVec2 ButtonPos(90, 200);
         ImGui::SetCursorPos(ButtonPos);
         if (ImGui::Button("Start Next Cycle", button_sz)) {
-            days_before_period += 1;
+            Runner(AppInstance);
+            days_before_period = AppInstance.countdown_predicted_date;
+            Unload_Data_To_File(AppInstance);
         }
 
         /* Diplaying the actual period date */
@@ -157,7 +164,10 @@ int main(int, char**)
         ImGui::SetCursorPos(DeleteButtonPos);
         ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0, 0.6f, 0.6f));
         if (ImGui::Button("Delete All Data", button_sz)) {
-            std::cout << "Hello World!";
+            Delete_File(AppInstance);
+            Runner(AppInstance);
+            days_before_period = AppInstance.countdown_predicted_date;
+            Unload_Data_To_File(AppInstance);
         }
         ImGui::PopStyleColor(1);
 

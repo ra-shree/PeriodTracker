@@ -59,7 +59,7 @@
     <ClInclude Include="..\include\PeriodTracker\pch.h">
       <Filter>Header Files\PeriodTracker</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\PeriodTracker\PeriodTracker.h">
+    <ClInclude Include="..\include\PeriodTracker\PeriodTracker.hpp">
       <Filter>Header Files\PeriodTracker</Filter>
     </ClInclude>
   </ItemGroup>
