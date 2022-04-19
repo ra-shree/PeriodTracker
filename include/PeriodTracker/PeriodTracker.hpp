@@ -64,9 +64,6 @@ public:
     // runs the entire program from start to finish
     friend void Runner(tracker& object);
 
-    // in case the user doesn't press the button and we only need to change the displayed countdown
-    friend void Runner_Button_Not_Pressed(tracker& object);
-
     // algorithm to predict the next menstrual cycle length
     // take tracker object as the argument
     friend int Algorithm_Predict_Next_Menstrual_Length(tracker& object);
@@ -77,6 +74,8 @@ public:
     // Unload data to the file from the object
     friend int Unload_Data_To_File(tracker& object);
 
+    // Run this function if the user presses the delete button
+    // Deletes any existing data and creates a new file and also runs the algorithm
     friend void Delete_File(tracker& object);
 };
 
