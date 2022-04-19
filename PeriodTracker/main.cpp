@@ -82,14 +82,14 @@ int main(int, char**)
     bool show_another_window = true;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     
-    tracker AppInstance;
+    std::unique_ptr<tracker> AppInstance(new tracker);
     if (Check_File_Exists()) {
-        Load_Data_From_File(AppInstance);
-        AppInstance.Days_Between_App_Open();
+        Load_Data_From_File(*AppInstance);
+        AppInstance->Days_Between_App_Open();
     } else {
-        Runner(AppInstance);
+        Runner(*AppInstance);
     }
-    int days_before_period = AppInstance.countdown_predicted_date;
+    int days_before_period = AppInstance->countdown_predicted_date;
     // Main loop
     while (!glfwWindowShouldClose(window))
     {
@@ -137,9 +137,9 @@ int main(int, char**)
         ImVec2 ButtonPos(90, 200);
         ImGui::SetCursorPos(ButtonPos);
         if (ImGui::Button("Start Next Cycle", button_sz)) {
-            Runner(AppInstance);
-            days_before_period = AppInstance.countdown_predicted_date;
-            Unload_Data_To_File(AppInstance);
+            Runner(*AppInstance);
+            days_before_period = AppInstance->countdown_predicted_date;
+            Unload_Data_To_File(*AppInstance);
         }
 
         /* Diplaying the actual period date */
@@ -164,10 +164,10 @@ int main(int, char**)
         ImGui::SetCursorPos(DeleteButtonPos);
         ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0, 0.6f, 0.6f));
         if (ImGui::Button("Delete All Data", button_sz)) {
-            Delete_File(AppInstance);
-            Runner(AppInstance);
-            days_before_period = AppInstance.countdown_predicted_date;
-            Unload_Data_To_File(AppInstance);
+            Delete_File(*AppInstance);
+            Runner(*AppInstance);
+            days_before_period = AppInstance->countdown_predicted_date;
+            Unload_Data_To_File(*AppInstance);
         }
         ImGui::PopStyleColor(1);
 
