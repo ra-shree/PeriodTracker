@@ -8,7 +8,7 @@ tracker::tracker()
 {
     tracker::sorted_menstrual_cycle_length;
     tracker::actual_menstrual_cycle_length;
-    tracker::actual_menstrual_vector_size = int(actual_menstrual_cycle_length.size());
+    tracker::actual_menstrual_vector_size = actual_menstrual_cycle_length.size();
     tracker::latest_quartiles[0] = { 0 };
     tracker::latest_quartiles[1] = { 0 };
     tracker::latest_quartiles[2] = { 0 };
@@ -24,7 +24,7 @@ tracker::tracker(int n)
 {
     tracker::sorted_menstrual_cycle_length;
     tracker::actual_menstrual_cycle_length;
-    tracker::actual_menstrual_vector_size = int(actual_menstrual_cycle_length.size());
+    tracker::actual_menstrual_vector_size = actual_menstrual_cycle_length.size();
     tracker::latest_quartiles[0] = { 0 };
     tracker::latest_quartiles[1] = { 0 };
     tracker::latest_quartiles[2] = { 0 };
@@ -67,7 +67,7 @@ int Days_Between_Two_Dates(struct tm& older_date)
     double seconds = difftime(mktime(&local_latest_time), mktime(&older_date));
 
     // convert the seconds to days
-    int days = int(seconds / 86400);
+    int days = seconds / 86400;
     return days;
 }
 
@@ -93,7 +93,6 @@ int tracker::Calculate_CLD()
     if (actual_menstrual_cycle_length.size() >= 2) {
         int consecutive_length_difference = actual_menstrual_cycle_length[actual_menstrual_vector_size - 1] - actual_menstrual_cycle_length[actual_menstrual_vector_size - 2];
         CLD.push_back(consecutive_length_difference);
-        CLD_size = int(CLD.size());
     }
     return 0;
 }
@@ -119,15 +118,15 @@ int tracker::Calculate_Quartiles()
 {
     int total_elements = actual_menstrual_vector_size;
     float Q_index[3];
-    float quart = ((float)total_elements + 1) / 4.0f;
+    float quart = (total_elements + 1) / 4;
     int abc[3] = { 0 };
     Q_index[0] = quart;
     Q_index[1] = quart * 2;
     Q_index[2] = quart * 3;
 
-    abc[0] = int(Q_index[0]); // Q1 index without the decimal
-    abc[1] = int(Q_index[1]); // Q2 index without the decimal
-    abc[2] = int(Q_index[2]); // Q3 index without the decimal
+    abc[0] = Q_index[0]; // Q1 index without the decimal
+    abc[1] = Q_index[1]; // Q2 index without the decimal
+    abc[2] = Q_index[2]; // Q3 index without the decimal
 
     for (int i = 0; i < 3; i++) {
         // check the fractional part of the index to use a different formula if it's anything besides zero
@@ -178,7 +177,7 @@ int Algorithm_Predict_Next_Menstrual_Length(tracker& object)
         ob->Calculate_Quartiles();
         ob->Calculate_CLD();
         // difference_in_CLD = CLD[n-1] - CLD[n] where n is the last element in CLD vector
-        int CLD_size = ob->CLD_size;
+        int CLD_size = ob->CLD.size();
         int last_calculated_CLD = ob->CLD[CLD_size - 1];
         if (last_calculated_CLD > -5 && last_calculated_CLD < 5) {
             next_predicted_length = ob->latest_quartiles[1];
