@@ -8,7 +8,7 @@ tracker::tracker()
 {
     tracker::sorted_menstrual_cycle_length;
     tracker::actual_menstrual_cycle_length;
-    tracker::actual_menstrual_vector_size = actual_menstrual_cycle_length.size();
+    tracker::actual_menstrual_vector_size = 0;
     tracker::latest_quartiles[0] = { 0 };
     tracker::latest_quartiles[1] = { 0 };
     tracker::latest_quartiles[2] = { 0 };
@@ -24,7 +24,7 @@ tracker::tracker(int n)
 {
     tracker::sorted_menstrual_cycle_length;
     tracker::actual_menstrual_cycle_length;
-    tracker::actual_menstrual_vector_size = actual_menstrual_cycle_length.size();
+    tracker::actual_menstrual_vector_size = 0;
     tracker::latest_quartiles[0] = { 0 };
     tracker::latest_quartiles[1] = { 0 };
     tracker::latest_quartiles[2] = { 0 };
@@ -104,6 +104,13 @@ int tracker::Set_Latest_Actual_Length()
     sorted_menstrual_cycle_length.push_back(latest_actual_length);
     actual_menstrual_cycle_length.push_back(latest_actual_length);
     return 0;
+}
+
+// function to recalculate the vector lengths when necessary
+int tracker::Calculate_Vector_Lengths()
+{
+    actual_menstrual_vector_size = actual_menstrual_cycle_length.size();
+    CLD_size = CLD.size();
 }
 
 // Calculate the date when the app is opened
@@ -257,7 +264,8 @@ int Unload_Data_To_File(tracker& object)
 {
     tracker* ob = &object;
     std::ofstream unloader("data.txt", std::ios::out | std::ios::trunc);
-
+    ob->actual_menstrual_vector_size = ob->actual_menstrual_cycle_length.size();
+    ob->CLD_size = ob->CLD.size();
     unloader << ob->countdown_predicted_date << " " << ob->latest_predicted_length << " " << ob->latest_actual_length << " ";
     unloader << ob->actual_menstrual_vector_size << " " << ob->CLD_size << " ";
     for (int i = 0; i < 3; i++) {
@@ -286,15 +294,15 @@ void Runner(tracker& object)
 {
     tracker* ob = &object;
     Algorithm_Predict_Next_Menstrual_Length(*ob);
+
     // Set the date when the length was last predicted
     ob->Set_Predicted_Length_Date();
 
-    // check if the set_latest_actual_length function was called and if so calculate CLD
-    int actual_length_set = 1;
+
     if (ob->latest_actual_length != 0)
     {
-        actual_length_set = ob->Set_Latest_Actual_Length();
-        if (actual_length_set == 0)
+        ob->Set_Latest_Actual_Length();
+        if (ob->)
         {
             ob->Calculate_CLD();
             Sort_Vectors(*ob);

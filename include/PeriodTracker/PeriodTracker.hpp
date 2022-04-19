@@ -51,6 +51,9 @@ public:
 
     // Set the value of latest_actual_length when user presses the button
     int Set_Latest_Actual_Length();
+    
+    // function to recalculate the vector lengths when necessary
+    int Calculate_Vector_Lengths();
 
     // calculate the quartiles of actual_menstrual_cycle_length
     int Calculate_Quartiles();
