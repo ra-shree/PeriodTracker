@@ -18,4 +18,3 @@ A software to keep track of your monthly period. It calculates the next date usi
 ## Tools Used
  * Visual Studio 2022
  * Git
- * Cmake
