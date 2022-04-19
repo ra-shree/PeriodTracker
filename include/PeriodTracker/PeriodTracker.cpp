@@ -264,7 +264,7 @@ int Load_Data_From_File(tracker& object)
 int Unload_Data_To_File(tracker& object)
 {
     tracker* ob = &object;
-    std::ofstream unloader("data.txt", std::ios::app);
+    std::ofstream unloader("data.txt", std::ios::out);
 
     unloader << ob->countdown_predicted_date << " " << ob->latest_predicted_length << " " << ob->latest_actual_length << " ";
     unloader << ob->actual_menstrual_vector_size << " " << ob->CLD_size << " ";
