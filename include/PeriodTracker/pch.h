@@ -6,9 +6,7 @@
 #include <ImGui/imgui_impl_opengl3.h>
 #include <ctime>
 #include <fstream>
-#include <iostream>
 #include <PeriodTracker/PeriodTracker.hpp>
 #include <vector>
 #include <algorithm>
-#include <cstdio>
 #include <sys/stat.h>
