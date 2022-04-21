@@ -82,17 +82,19 @@ int main(int, char**)
     bool show_another_window = true;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     
-    std::unique_ptr<tracker> AppInstance(new tracker);
+    std::shared_ptr<tracker> AppInstance(new tracker);
     std::ifstream check("data.txt");
     if (check) {
         check.close();
-        Load_Data_From_File(*AppInstance);
+        AppInstance->Load_Data_From_File();
         AppInstance->Days_Between_App_Open();
     } else {
         check.close();
-        Runner(*AppInstance);
+        AppInstance->Runner();
     }
     int days_before_period = AppInstance->countdown_predicted_date;
+    AppInstance->Unload_Data_To_File();
+
     // Main loop
     while (!glfwWindowShouldClose(window))
     {
@@ -140,9 +142,13 @@ int main(int, char**)
         ImVec2 ButtonPos(90, 200);
         ImGui::SetCursorPos(ButtonPos);
         if (ImGui::Button("Start Next Cycle", button_sz)) {
-            Runner(*AppInstance);
-            days_before_period = AppInstance->countdown_predicted_date;
-            Unload_Data_To_File(*AppInstance);
+            if (AppInstance->countdown_predicted_date < 10)
+            {
+                AppInstance->Set_Latest_Actual_Length();
+                AppInstance->Runner();
+                days_before_period = AppInstance->countdown_predicted_date;
+                AppInstance->Unload_Data_To_File();
+            }
         }
 
         /* Diplaying the actual period date */
@@ -167,10 +173,10 @@ int main(int, char**)
         ImGui::SetCursorPos(DeleteButtonPos);
         ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0, 0.6f, 0.6f));
         if (ImGui::Button("Delete All Data", button_sz)) {
-            Delete_File(*AppInstance);
-            Runner(*AppInstance);
+            AppInstance->Delete_File();
+            AppInstance->Runner();
             days_before_period = AppInstance->countdown_predicted_date;
-            Unload_Data_To_File(*AppInstance);
+            AppInstance->Unload_Data_To_File();
         }
         ImGui::PopStyleColor(1);
 
