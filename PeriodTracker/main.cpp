@@ -83,10 +83,13 @@ int main(int, char**)
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     
     std::unique_ptr<tracker> AppInstance(new tracker);
-    if (Check_File_Exists()) {
+    std::ifstream check("data.txt");
+    if (check) {
+        check.close();
         Load_Data_From_File(*AppInstance);
         AppInstance->Days_Between_App_Open();
     } else {
+        check.close();
         Runner(*AppInstance);
     }
     int days_before_period = AppInstance->countdown_predicted_date;
