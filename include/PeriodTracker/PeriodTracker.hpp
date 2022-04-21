@@ -79,7 +79,5 @@ public:
     friend void Delete_File(tracker& object);
 };
 
-// Check if the file to pull data from exists or not
-bool Check_File_Exists();
 #endif
 
