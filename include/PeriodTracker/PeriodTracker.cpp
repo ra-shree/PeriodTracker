@@ -74,7 +74,7 @@ int Days_Between_Two_Dates(struct tm& older_date)
 // calculates the days between when the app was last opened and today and substracts from the countdown
 int tracker::Days_Between_App_Open()
 {
-    int days_between_app_open = Days_Between_Two_Dates(last_app_open_date);
+    int days_between_app_open = Days_Between_Two_Dates(predicted_length_date);
     countdown_predicted_date -= days_between_app_open;
     return 0;
 }
