@@ -194,14 +194,6 @@ int Algorithm_Predict_Next_Menstrual_Length(tracker& object)
     return 0;
 }
 
-// check for existing file, return 0 if exists else return 1
-bool Check_File_Exists()
-{
-    std::string name = "data.txt";
-    struct stat buffer;
-    return (stat(name.c_str(), &buffer) == 0);
-}
-
 // Load data from the file into the object
 /*
     countdown_predicted_date, latest_predicted_length, latest_actual_length,
@@ -296,10 +288,13 @@ void Runner(tracker& object)
     Algorithm_Predict_Next_Menstrual_Length(*ob);
     // Set the date when the length was last predicted
     ob->Set_Predicted_Length_Date();
+
+    // check if the set_latest_actual_length function was called and if so calculate CLD
+    int actual_length_set = 1;
     if (ob->latest_actual_length != 0)
     {
-        ob->Set_Latest_Actual_Length();
-        if (ob->actual_menstrual_vector_size > 1)
+        actual_length_set = ob->Set_Latest_Actual_Length();
+        if (actual_length_set == 0)
         {
             ob->Calculate_CLD();
             Sort_Vectors(*ob);
