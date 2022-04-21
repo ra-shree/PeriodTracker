@@ -17,9 +17,9 @@ tracker::tracker()
     tracker::latest_predicted_length = 0;
     tracker::latest_actual_length = 0;
     tracker::countdown_predicted_date = 0;
-    tracker::last_app_open_date.tm_sec = 0;
     tracker::predicted_length_date.tm_sec = 0;
 }
+
 tracker::tracker(int n)
 {
     tracker::sorted_menstrual_cycle_length;
@@ -32,8 +32,7 @@ tracker::tracker(int n)
     tracker::CLD_size = 0;
     tracker::latest_predicted_length = 0;
     tracker::latest_actual_length = 0;
-    tracker::countdown_predicted_date = 0;
-    tracker::last_app_open_date.tm_sec = 0;
+    tracker::countdown_predicted_date = 0;    
     tracker::predicted_length_date.tm_sec = 0;
 }
 
@@ -63,6 +62,7 @@ int Days_Between_Two_Dates(struct tm& older_date)
     local_latest_time.tm_hour = 0;
     local_latest_time.tm_min = 0;
     local_latest_time.tm_sec = 0;
+
     // gets the difference between the two times in seconds
     double seconds = difftime(mktime(&local_latest_time), mktime(&older_date));
 
@@ -94,29 +94,16 @@ int tracker::Calculate_CLD()
         int consecutive_length_difference = actual_menstrual_cycle_length[actual_menstrual_vector_size - 1] - actual_menstrual_cycle_length[actual_menstrual_vector_size - 2];
         CLD.push_back(consecutive_length_difference);
     }
+    CLD_size = CLD.size();
     return 0;
 }
 
-// Set the value of latest_actual_length when user presses the button
+// Set the value of latest_actual_length when user presses the button and al
 int tracker::Set_Latest_Actual_Length()
 {
-    latest_actual_length = Days_Between_Two_Dates(predicted_length_date);
-    sorted_menstrual_cycle_length.push_back(latest_actual_length);
-    actual_menstrual_cycle_length.push_back(latest_actual_length);
-    return 0;
-}
-
-// function to recalculate the vector lengths when necessary
-int tracker::Calculate_Vector_Lengths()
-{
-    actual_menstrual_vector_size = actual_menstrual_cycle_length.size();
-    CLD_size = CLD.size();
-}
-
-// Calculate the date when the app is opened
-int tracker::Last_App_Open_Date()
-{
-    Calc_Todays_Date(last_app_open_date);
+    int latest_actual_length1;
+    latest_actual_length1 = Days_Between_Two_Dates(predicted_length_date);
+    actual_menstrual_cycle_length.push_back(latest_actual_length1);
     return 0;
 }
 
@@ -145,106 +132,105 @@ int tracker::Calculate_Quartiles()
             Q_index[i] = sorted_menstrual_cycle_length[abc[i] - 1] + frac_part * (sorted_menstrual_cycle_length[abc[i]] - sorted_menstrual_cycle_length[abc[i] - 1]);
         }
     }
+    latest_quartiles[0] = Q_index[0];
+    latest_quartiles[1] = Q_index[1];
+    latest_quartiles[2] = Q_index[2];
     return 0;
 }
 
 // sort sorted_menstrual_cycle_length in ascending order
-int Sort_Vectors(tracker& object)
+int tracker::Sorted_Vectors()
 {
-    tracker* ob = &object;
-    std::sort(ob->sorted_menstrual_cycle_length.begin(), ob->sorted_menstrual_cycle_length.end());
+    sorted_menstrual_cycle_length = actual_menstrual_cycle_length;
+    if (actual_menstrual_vector_size > 2) {
+        std::sort(sorted_menstrual_cycle_length.begin(), sorted_menstrual_cycle_length.end());
+    }
     return 0;
 }
 
 // Algorithm to calculate the next menstrual cycle length
-int Algorithm_Predict_Next_Menstrual_Length(tracker& object)
+int tracker::Algorithm_Predict_Next_Menstrual_Length()
 {
-    tracker* ob = &object;
     int next_predicted_length = 28;
-    int max_index_of_vector = ob->actual_menstrual_vector_size - 1;
+    actual_menstrual_vector_size = actual_menstrual_cycle_length.size();
+    int max_index_of_vector = actual_menstrual_vector_size;
 
     // if there is no previous predicted length i.e this is the first use of the app
-    if (max_index_of_vector <= -1) {
+    if (max_index_of_vector <= 0) {
         next_predicted_length = 28;
     }
 
     // if there is one data stored so next predicted length is same as last length of menstrual cycle
-    if (max_index_of_vector == 0) {
-        next_predicted_length = ob->actual_menstrual_cycle_length[0];
+     else if (max_index_of_vector == 1) {
+        next_predicted_length = actual_menstrual_cycle_length[0];
     }
 
     // if there is two data stored next predicted length is average of both lengths
-    if (max_index_of_vector == 1) {
-        next_predicted_length = (ob->actual_menstrual_cycle_length[0] + ob->actual_menstrual_cycle_length[1]) / 2;
-        ob->Calculate_CLD();
+    else if (max_index_of_vector == 2) {
+        next_predicted_length = (actual_menstrual_cycle_length[0] + actual_menstrual_cycle_length[1]) / 2;
+        Calculate_CLD();
     }
 
-    if (max_index_of_vector >= 2) {
-        Sort_Vectors(*ob);
-        ob->Calculate_Quartiles();
-        ob->Calculate_CLD();
+    else if (max_index_of_vector >= 3) {
+        Sorted_Vectors();
+        Calculate_Quartiles();
+        Calculate_CLD();
         // difference_in_CLD = CLD[n-1] - CLD[n] where n is the last element in CLD vector
-        int CLD_size = ob->CLD.size();
-        int last_calculated_CLD = ob->CLD[CLD_size - 1];
+        int last_calculated_CLD = CLD[CLD_size - 1];
         if (last_calculated_CLD > -5 && last_calculated_CLD < 5) {
-            next_predicted_length = ob->latest_quartiles[1];
+            next_predicted_length = latest_quartiles[1];
         }
         else if (last_calculated_CLD >= 5) {
-            next_predicted_length = ob->latest_quartiles[2];
+            next_predicted_length = latest_quartiles[2];
         }
         else if (last_calculated_CLD <= 5) {
-            next_predicted_length = ob->latest_quartiles[0];
+            next_predicted_length = latest_quartiles[0];
         }
     }
-    ob->countdown_predicted_date = next_predicted_length;
-    ob->latest_predicted_length = next_predicted_length;
+    countdown_predicted_date = next_predicted_length;
+    latest_predicted_length = next_predicted_length;
     return 0;
 }
 
 // Load data from the file into the object
 /*
-    countdown_predicted_date, latest_predicted_length, latest_actual_length,
-    actual_menstrual_vector_size, CLD_size
-    latest_quartiles(3),
+    latest_predicted_length
+    actual_menstrual_vector_size, CLD_size,
     sorted_menstrual_cycle_length (vector),
     actual_menstrual_cycle_length (vector),
-
-    last_app_open_date(tm structure) --> year, month, day
+    CLD,
+    predicted_length_date(tm structure) --> year, month, day
 */
-int Load_Data_From_File(tracker& object)
+int tracker::Load_Data_From_File()
 {
-    tracker* ob = &object;
-    // size of actual_menstrual_cycle_length and sorted_menstrual_cycle_length
-    int n, o;
+    // size of actual_menstrual_cycle_length
+    int n;
+
     // temporary variable to hold data that's going to be loaded to object
     int data;
+
     std::ifstream loader;
     loader.open("data.txt", std::ios::in);
-    loader >> ob->countdown_predicted_date >> ob->latest_predicted_length >> ob->latest_actual_length;
+
+    loader >> latest_predicted_length;
     loader >> n;
-    ob->actual_menstrual_vector_size = n;
-    loader >> o;
-    ob->CLD_size = o;
-    for (int i = 0; i < 3; i++) {
-        loader >> data;
-        ob->latest_quartiles[i] = data;
-    }
+    actual_menstrual_vector_size = n;
+
     for (int i = 0; i < n; i++) {
         loader >> data;
-        ob->sorted_menstrual_cycle_length.push_back(data);
+        actual_menstrual_cycle_length.push_back(data);
     }
+
+    loader >> n;
+    CLD_size = n;
     for (int i = 0; i < n; i++) {
         loader >> data;
-        ob->actual_menstrual_cycle_length.push_back(data);
-    }
-    for (int i = 0; i < o; i++) {
-        loader >> data;
-        ob->CLD.push_back(data);
+        CLD.push_back(data);
     }
     // load last_app_open_date with date
-    loader >> ob->predicted_length_date.tm_year;
-    loader >> ob->predicted_length_date.tm_mon;
-    loader >> ob->predicted_length_date.tm_mday;
+    loader >> predicted_length_date.tm_year;
+    loader >> predicted_length_date.tm_mon;
+    loader >> predicted_length_date.tm_mday;
 
     loader.close();
     return 0;
@@ -252,68 +238,49 @@ int Load_Data_From_File(tracker& object)
 
 // Unload data to the file from the object
 /*
-    countdown_predicted_date, latest_predicted_length, latest_actual_length,
+    latest_predicted_length
     actual_menstrual_vector_size, CLD_size,
-    latest_quartiles(3),
     sorted_menstrual_cycle_length (vector),
     actual_menstrual_cycle_length (vector),
     CLD,
-    last_app_open_date(tm structure) --> year, month, day
+    predicted_length_date(tm structure) --> year, month, day
 */
-int Unload_Data_To_File(tracker& object)
+int tracker::Unload_Data_To_File()
 {
-    tracker* ob = &object;
     std::ofstream unloader("data.txt", std::ios::out | std::ios::trunc);
-    ob->actual_menstrual_vector_size = ob->actual_menstrual_cycle_length.size();
-    ob->CLD_size = ob->CLD.size();
-    unloader << ob->countdown_predicted_date << " " << ob->latest_predicted_length << " " << ob->latest_actual_length << " ";
-    unloader << ob->actual_menstrual_vector_size << " " << ob->CLD_size << " ";
-    for (int i = 0; i < 3; i++) {
-        unloader << ob->latest_quartiles[i] << " ";
+    unloader << latest_predicted_length << " ";
+
+    unloader << actual_menstrual_vector_size << " ";
+    for (int item : actual_menstrual_cycle_length) {
+        unloader << item << " ";
     }
-    for (int i = 0; i < ob->actual_menstrual_vector_size; i++) {
-        unloader << ob->sorted_menstrual_cycle_length[i] << " ";
+
+    unloader << CLD_size << " ";
+    for (int item : CLD) {
+        unloader << item << " ";
     }
-    for (int i = 0; i < ob->actual_menstrual_vector_size; i++) {
-        unloader << ob->actual_menstrual_cycle_length[i] << " ";
-    }
-    for (int i = 0; i < ob->CLD_size; i++) {
-        unloader << ob->CLD[i] << " ";
-    }
+
     // load last_app_open_date with date
-    unloader << ob->predicted_length_date.tm_year << " ";
-    unloader << ob->predicted_length_date.tm_mon << " ";
-    unloader << ob->predicted_length_date.tm_mday << " ";
+    unloader << predicted_length_date.tm_year << " ";
+    unloader << predicted_length_date.tm_mon << " ";
+    unloader << predicted_length_date.tm_mday << " ";
 
     unloader.close();
     return 0;
 }
 
 // When user presses the button and a new menstrual date needs to be calculated
-void Runner(tracker& object)
+void tracker::Runner()
 {
-    tracker* ob = &object;
-    Algorithm_Predict_Next_Menstrual_Length(*ob);
-
+    Algorithm_Predict_Next_Menstrual_Length();
     // Set the date when the length was last predicted
-    ob->Set_Predicted_Length_Date();
-
-
-    if (ob->latest_actual_length != 0)
-    {
-        ob->Set_Latest_Actual_Length();
-        if (ob->)
-        {
-            ob->Calculate_CLD();
-            Sort_Vectors(*ob);
-        }
-    }
+    Set_Predicted_Length_Date();
 }
 
-void Delete_File(tracker& object)
+void tracker::Delete_File()
 {
     remove("data.txt");
-    object = tracker(0);
+    tracker(1);
 }
 
 // show the computer how to initialize the object
