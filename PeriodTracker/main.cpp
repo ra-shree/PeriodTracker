@@ -173,7 +173,7 @@ int main(int, char**)
         ImGui::SetCursorPos(DeleteButtonPos);
         ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0, 0.6f, 0.6f));
         if (ImGui::Button("Delete All Data", button_sz)) {
-            AppInstance->Delete_File();
+            AppInstance->Clear_Data();
             AppInstance->Runner();
             days_before_period = AppInstance->countdown_predicted_date;
             AppInstance->Unload_Data_To_File();
