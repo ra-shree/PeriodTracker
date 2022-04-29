@@ -20,15 +20,20 @@ tracker::tracker()
     tracker::predicted_length_date.tm_sec = 0;
 }
 
-// Clear all data and start a new user session
-void tracker::Clear_Data()
+tracker::tracker(int n)
 {
-    tracker::actual_menstrual_cycle_length.clear();
+    tracker::sorted_menstrual_cycle_length;
+    tracker::actual_menstrual_cycle_length;
     tracker::actual_menstrual_vector_size = 0;
-    tracker::CLD.clear();
+    tracker::latest_quartiles[0] = { 0 };
+    tracker::latest_quartiles[1] = { 0 };
+    tracker::latest_quartiles[2] = { 0 };
+    tracker::CLD;
     tracker::CLD_size = 0;
     tracker::latest_predicted_length = 0;
+    tracker::latest_actual_length = 0;
     tracker::countdown_predicted_date = 0;    
+    tracker::predicted_length_date.tm_sec = 0;
 }
 
 // calculate today's system date and set it as the last app open date
@@ -208,7 +213,6 @@ int tracker::Load_Data_From_File()
     loader.open("data.txt", std::ios::in);
 
     loader >> latest_predicted_length;
-    loader >> countdown_predicted_date;
     loader >> n;
     actual_menstrual_vector_size = n;
 
@@ -245,7 +249,6 @@ int tracker::Unload_Data_To_File()
 {
     std::ofstream unloader("data.txt", std::ios::out | std::ios::trunc);
     unloader << latest_predicted_length << " ";
-    unloader << countdown_predicted_date << " ";
 
     unloader << actual_menstrual_vector_size << " ";
     for (int item : actual_menstrual_cycle_length) {
@@ -276,8 +279,8 @@ void tracker::Runner()
 
 void tracker::Delete_File()
 {
-    Clear_Data();
-    Unload_Data_To_File();
+    remove("data.txt");
+    tracker(1);
 }
 
 // show the computer how to initialize the object
