@@ -22,8 +22,7 @@ public:
     // constructor
     tracker();
 
-    // Clear all data and start a new user session
-    void Clear_Data();
+    tracker(int n);
 
     // starts equal to latest_predicted_length but counts down with each day until zero then negative until next predicted date is calculated
     int countdown_predicted_date;
