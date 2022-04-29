@@ -3,7 +3,7 @@
 
 /* change the properties / linker / system subsystem to console and the preprocessor directive below if you want to see the background terminal otherwise change it to windows
  so the stupid console doesn't show up when you execute the app */
-// #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 /*DO NOT TOUCH THIS GODDAMN FILE.*/
 
 static void glfw_error_callback(int error, const char* description)
