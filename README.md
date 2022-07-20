@@ -85,11 +85,17 @@ Period Tracker provides an easy way for women to stay informed on of their menst
 
 ## REFERENCES
 [1] Trading Economics, "Trading Economics," 2020. [Online]. Available: https://tradingeconomics.com/nepal/population-female-percent-of-total-wb-data.html. [Accessed February 2022].
+
 [2] B. G. S. J. I Soumpasis, "Real-life insights on menstrual cycles and ovulation using big data," Human Reproduction Open, vol. 2020, no. 2, p. hoaa011, 2020. 
+
 [3] I. U. A. S. V. J. V. C. H. W. N. E. Kathy Li, "A predictive model for next cycle start date that accounts for adherence in menstrual self-tracking," Journal of the American Medical Informatics Association, vol. 29, no. 1, pp. 3 - 11, 2022. 
+
 [4] Flo Health, Inc, "Flo Ovulation & Period Tracker," 2022. [Online]. Available: https://play.google.com/store/apps/details?id=org.iggymedia.periodtracker&hl=en&gl=US. [Accessed February 2022].
+
 [5] Flo Health, Inc, "Flo," 2022. [Online]. Available: https://flo.health/. [Accessed February 2022].
+
 [6] S. L. A. Mitchell D.Creinina, "How regular is regular? An analysis of menstrual cycle regularity," Department of Obstetrics, Gynecology and Reproductive Sciences, University of Pittsburgh School of Medicine and Magee Womens Research Institute, 300 Halket Street, Pittsburgh, PA 15213-3180, USA, 2004.
+
 [7] M. S. K. R. Richard J. Fehring, "Variability in the Phases of the Menstrual Cycle," JOGNN, vol. 35, no. 3, pp. 376-384, 2006. 
 
 
