@@ -41,8 +41,11 @@ Among commercially available applications, almost all of them are exclusive to e
 
 ## METHODOLOGY
 The programming language used to build the tracker is C++. We will mostly be using the standard library with the only exception being Dear ImGUI which will be used to build the User Interface. We will be making use of the ctime and chrono library to retrieve system date and manipulate date objects. We will also use the vector library for the dynamic sized arrays and the fstream library to read and write files.
+
 We will be using a statistics-based model to predict the next menstruation date. The data we will be keeping track of are – cycle length difference (CLD) which is the difference in lengths between successive menstrual cycles. Assuming D1, D2 and D3 are consecutive menstrual cycle lengths, CLD = D3 – D2 = D2 – D1 = Dn – Dn-1. A large variation in CLD is key information in determining the irregularity of an individual’s menstrual cycle. Another key point is the maximum and minimum lengths of the menstrual cycle being 35 days and 23 days respectively. Any menstrual length longer or shorter than these days respectively can be tagged as irregular menstrual cycle and the user needs to be informed. An irregular menstrual cycle either follows an upwards or a downwards trend, this can be discovered using the variation in CLD and the next date is predicted accordingly. 
+
 We use the five-number summary to describe the nature of the distribution. The smallest and the largest numbers are 23 and 35 respectively. The initial menstrual cycle length is set at 28 days since it is the median cycle length of most women.
+
 For the next menstrual cycle, the length of the previous recorded cycle is used. Once we have 2 recorded cycle lengths, we calculate the CLD and for a CLD of ±5, we use the median of the two. For less CLD, we use the shorter of the recorded lengths and for high CLD, we use the longer recorded length. After recording more than 3 date we calculate the quartiles of the data. We also calculate the difference between the latest menstrual cycle length (LMCL) and the last predicted menstrual cycle length (PMCL) and the standard deviation of their mean (SD) to correct the next prediction.
 
 ### **ALGORITHM FOR PREDICTING NEXT MENSTRUAL CYCLE LENGTH**
